@@ -4,7 +4,7 @@ import sys
 # This gets the Qt stuff
 import PyQt5
 from PyQt5.QtWidgets import *
-
+import settings
 # This is our window from QtCreator
 import mainwindow_auto
 
@@ -18,16 +18,11 @@ class MainWindow(QMainWindow, mainwindow_auto.Ui_MainWindow):
         self.setupUi(self)  # gets defined in the UI file
 
 
-# I feel better having one of these
-def main():
-    # a new app instance
-    app = QApplication(sys.argv)
-    form = MainWindow()
-    form.show()
-    # without this, the script exits immediately.
-    sys.exit(app.exec_())
+###initialize GUI State
 
+        ### setup pin numbers
 
-# python bit to figure how who started This
-if __name__ == "__main__":
-    main()
+        self.updateDisplay()
+
+    def pushButtonClicked(self):
+        print('pushed!')
