@@ -16,13 +16,14 @@ class MainWindow(QMainWindow, mainwindow_auto.Ui_MainWindow):
         super(self.__class__, self).__init__()
 
         self.setupUi(self)  # gets defined in the UI file
-
-
+        self.pushButton.clicked.connect(lambda: self.pushButtonClicked())
+        print("testing")
 ###initialize GUI State
 
         ### setup pin numbers
 
-        self.updateDisplay()
+
 
     def pushButtonClicked(self):
-        print('pushed!')
+        print("pushed!")
+    
