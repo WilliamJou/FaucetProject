@@ -16,7 +16,10 @@ class MainWindow(QMainWindow, mainwindow_auto.Ui_MainWindow):
         super(self.__class__, self).__init__()
 
         self.setupUi(self)  # gets defined in the UI file
+
+        ##Listeners
         self.pushButton.clicked.connect(lambda: self.pushButtonClicked())
+        self.cSlider.valueChanged.connect(lambda:self.cSliderMoved(self.cSlider.value()))
         print("testing")
 ###initialize GUI State
 
@@ -27,5 +30,5 @@ class MainWindow(QMainWindow, mainwindow_auto.Ui_MainWindow):
     def pushButtonClicked(self):
         print("pushed!")
     def cSliderMoved(self, value):
-        settings.mainControl.move(servos(1), value)
+        settings.mainControl.move(servos[1], value)
 
