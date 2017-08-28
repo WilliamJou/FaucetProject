@@ -1,10 +1,7 @@
 
 import sys
 import time
-import random
 from main import *
-from controlClass import controller
-import RPi.GPIO as GPIO
 import settings
 
 # I feel better having one of these
@@ -22,7 +19,7 @@ try:
 
 finally:
 	print("has quit")
-	GPIO.cleanup()
+
 
 
 
