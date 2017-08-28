@@ -26,4 +26,6 @@ class MainWindow(QMainWindow, mainwindow_auto.Ui_MainWindow):
 
     def pushButtonClicked(self):
         print("pushed!")
-    
+    def cSliderMoved(self, value):
+        settings.mainControl.move(servos(1), value)
+
