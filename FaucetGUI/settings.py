@@ -17,8 +17,8 @@ def init():
 	global mainControl
 	mainControl = control()
 	
-	cservo = servo(24 ,0, 8, 32, "right")
-	hservo = servo(22 ,1, 8, 32, "left")
+	cservo = servo(24 ,8, 32, "right")
+	hservo = servo(22 , 8, 32, "left")
 	
 	global servos
 	servos = [cservo, hservo]

@@ -6,30 +6,22 @@ import settings
 
 class servo(object):
 	
-	def __init__(self, pin, number, mini, maxi, direction):
+	def __init__(self, pin, direction):
 		self.direction = direction
-		self.max = maxi
-		self.min = mini
-		self.number = number
 		self.pin = pin
-
 		self.angle = 0
-		self.pwm = (maxi - mini)/2
+		self.pwm = 0
 		self.per = 50
 	
 		settings.mainControl.setUp(self.pin)
 
 		self.moveAngle(self.angle)
 
-		
+
 
 	def moveAngle(self, angle):
 		self.angle = angle
-		self.pwm = self.min + (self.max - self.min) * ((angle + 90)/ 180)
-		if (self.direction == "right"):
-			self.per = 100 - (angle + 90) / 1.8	
-		else:	
-			self.per = (angle + 90) / 1.8
+		self.pwm = scale(angle,0,180,0,255)
 		settings.mainControl.move(self.pin, self.pwm)
 
 	def movePWM(self, pwm):
