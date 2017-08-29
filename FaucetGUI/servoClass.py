@@ -23,7 +23,7 @@ class servo(object):
 
 	def moveAngle(self, angle):
 		self.angle = angle
-		self.pwm = self.scale(angle,0,180,0,255)
+		self.pwm = self.scale(angle,0,180,0,32)
 		settings.mainControl.move(self.pin, self.pwm)
 
 	'''def movePWM(self, pwm):
