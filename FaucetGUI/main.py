@@ -31,4 +31,4 @@ class MainWindow(QMainWindow, mainwindow_auto.Ui_MainWindow):
         print("pushed!")
     def cSliderMoved(self, value):
         settings.servos[1].moveAngle(value)
-
+        print(value)
