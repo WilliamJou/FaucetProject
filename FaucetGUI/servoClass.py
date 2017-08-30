@@ -14,7 +14,7 @@ class servo(object):
 		self.pwm = 0
 		self.min = min
 		self.max = max
-		self.prevAngle = min
+		self.prevAngle = 0
 		self.index = 0
 		settings.mainControl.setUp(self.pin)
 
