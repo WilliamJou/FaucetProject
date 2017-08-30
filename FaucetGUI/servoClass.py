@@ -1,19 +1,23 @@
 
 import sys
-import pigpio
+import
+import time
 import settings
 
 
 class servo(object):
-	
-	def __init__(self, pin, direction):
+
+	def __init__(self, pin, min, max, direction):
 		self.direction = direction
 		self.pin = pin
 		self.angle = 0
 		self.pwm = 0
-		self.per = 50
-	
+		self.min = min
+		self.max = max
+		self.prevAngle = min
+		self.index = 0
 		settings.mainControl.setUp(self.pin)
+
 
 		self.moveAngle(self.angle)
 
@@ -21,10 +25,11 @@ class servo(object):
 		newVal = newlow + (newhigh - newlow)/(high-low)*(value-low)
 		return newVal
 
-	def moveAngle(self, angle):
+	def moveAngle(self, angle, prevAngle):
 		self.angle = angle
-		self.pwm = self.scale(angle,0,180,0,32)
+		self.pwm = self.scale(angle,0,180,self.min, self.max)
 		settings.mainControl.move(self.pin, self.pwm)
+		#if self.prevAngle>angle
 
 	'''def movePWM(self, pwm):
 		self.angle = (pwm - self.min) / (self.max - self.min) * 180 - 90

@@ -31,6 +31,15 @@ class MainWindow(QMainWindow, mainwindow_auto.Ui_MainWindow):
     def pushButtonClicked(self):
         print("pushed!")
     def cSliderMoved(self, value):
+        settings.servos[0].index = round(value/22.5)
+        value = round(value/22.5)*22.5 #input = degrees, output scaled to 22.5 intervals
+        self.cSlider.setValue(value)
         settings.servos[0].moveAngle(value)
-        self.txtTemp.setText(str(value))
+        self.txtTemp.setText(str(settings.temp[settings.servos[0].index][settings.servos[1].index])
+        time.sleep(.750)
+        if (settings.servos[0].prevAngle> value):
+            settings.servos[0].moveAngle(value+4)
+        else:
+            settings.servos[0].moveAngle(value-4)
+
         print(value)
