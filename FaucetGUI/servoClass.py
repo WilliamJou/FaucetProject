@@ -1,6 +1,6 @@
 
 import sys
-import
+import pigpio
 import time
 import settings
 
