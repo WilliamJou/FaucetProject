@@ -37,7 +37,7 @@ class MainWindow(QMainWindow, mainwindow_auto.Ui_MainWindow):
         self.cSlider.setValue(value)
         settings.servos[0].moveAngle(value)
         print(str(settings.temp[settings.servos[0].index][settings.servos[1].index]))
-        self.txtTemp.setText(str(settings.temp[settings.servos[0].index][settings.servos[1].index])
+        self.txtTemp.setText(str(settings.temp[settings.servos[0].index][settings.servos[1].index]))
         time.sleep(.750)
         if (settings.servos[0].prevAngle> value):
             settings.servos[0].moveAngle(value+4)
