@@ -20,6 +20,7 @@ class MainWindow(QMainWindow, mainwindow_auto.Ui_MainWindow):
         ##Listeners
         self.pushButton.clicked.connect(lambda: self.pushButtonClicked())
         self.cSlider.valueChanged.connect(lambda:self.cSliderMoved(self.cSlider.value()))
+        self.txtTemp.returnPressed.connect(lambda:self.txtTempChanged(self.txtTemp.text()))
         print("testing")
 ###initialize GUI State
 
@@ -31,4 +32,5 @@ class MainWindow(QMainWindow, mainwindow_auto.Ui_MainWindow):
         print("pushed!")
     def cSliderMoved(self, value):
         settings.servos[0].moveAngle(value)
+        self.txtTemp.setText(str(value))
         print(value)

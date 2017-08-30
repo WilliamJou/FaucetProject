@@ -15,7 +15,7 @@ class Ui_MainWindow(object):
         self.centralWidget = QtWidgets.QWidget(MainWindow)
         self.centralWidget.setObjectName("centralWidget")
         self.pushButton = QtWidgets.QPushButton(self.centralWidget)
-        self.pushButton.setGeometry(QtCore.QRect(420, 210, 93, 28))
+        self.pushButton.setGeometry(QtCore.QRect(390, 140, 93, 28))
         self.pushButton.setObjectName("pushButton")
         self.cSlider = QtWidgets.QSlider(self.centralWidget)
         self.cSlider.setGeometry(QtCore.QRect(600, 310, 160, 22))
@@ -27,6 +27,12 @@ class Ui_MainWindow(object):
         self.cSlider.setInvertedAppearance(False)
         self.cSlider.setTickPosition(QtWidgets.QSlider.TicksBelow)
         self.cSlider.setObjectName("cSlider")
+        self.label = QtWidgets.QLabel(self.centralWidget)
+        self.label.setGeometry(QtCore.QRect(580, 190, 81, 16))
+        self.label.setObjectName("label")
+        self.txtTemp = QtWidgets.QLineEdit(self.centralWidget)
+        self.txtTemp.setGeometry(QtCore.QRect(550, 150, 131, 31))
+        self.txtTemp.setObjectName("txtTemp")
         MainWindow.setCentralWidget(self.centralWidget)
         self.menuBar = QtWidgets.QMenuBar(MainWindow)
         self.menuBar.setGeometry(QtCore.QRect(0, 0, 890, 26))
@@ -46,4 +52,5 @@ class Ui_MainWindow(object):
         _translate = QtCore.QCoreApplication.translate
         MainWindow.setWindowTitle(_translate("MainWindow", "MainWindow"))
         self.pushButton.setText(_translate("MainWindow", "please work"))
+        self.label.setText(_translate("MainWindow", "Temperature"))
 
