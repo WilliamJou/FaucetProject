@@ -7,6 +7,7 @@ from PyQt5.QtWidgets import *
 import settings
 # This is our window from QtCreator
 import mainwindow_auto
+import time
 
 
 # create class for our Raspberry Pi GUI
