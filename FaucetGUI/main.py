@@ -35,6 +35,7 @@ class MainWindow(QMainWindow, mainwindow_auto.Ui_MainWindow):
         value = round(value/22.5)*22.5 #input = degrees, output scaled to 22.5 intervals
         self.cSlider.setValue(value)
         settings.servos[0].moveAngle(value)
+        print(str(settings.temp[settings.servos[0].index][settings.servos[1].index]))
         self.txtTemp.setText(str(settings.temp[settings.servos[0].index][settings.servos[1].index])
         time.sleep(.750)
         if (settings.servos[0].prevAngle> value):
