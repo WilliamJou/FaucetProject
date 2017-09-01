@@ -1,6 +1,6 @@
 # always seem to need this
 import sys
-
+import math
 # This gets the Qt stuff
 import PyQt5
 from PyQt5.QtWidgets import *
@@ -32,16 +32,28 @@ class MainWindow(QMainWindow, mainwindow_auto.Ui_MainWindow):
     def pushButtonClicked(self):
         print("pushed!")
     def cSliderMoved(self, value):
+        newAngle = 0
         settings.servos[0].index = round(value/22.5)
+        print('index: ', settings.servos[0].index)
         value = round(value/22.5)*22.5 #input = degrees, output scaled to 22.5 intervals
-        self.cSlider.setValue(value)
+##        self.cSlider.setValue(value)
         settings.servos[0].moveAngle(value)
-        print(str(settings.temp[settings.servos[0].index][settings.servos[1].index]))
-        self.txtTemp.setText(str(settings.temp[settings.servos[0].index][settings.servos[1].index]))
-        time.sleep(.750)
+        print('temperature: ', str(settings.servos[0].temp[settings.servos[0].index][settings.servos[1].index]))
+        self.txtTemp.setText(str(settings.servos[0].temp[settings.servos[0].index][settings.servos[1].index]))
+        
+        print('previous angle: ', settings.servos[0].prevAngle)
+        print('current value: ', value)
         if (settings.servos[0].prevAngle> value):
-            settings.servos[0].moveAngle(value+4)
-        else:
-            settings.servos[0].moveAngle(value-4)
+            time.sleep(.5)
+            newAngle = math.floor(settings.servos[0].scale(value,0,180,settings.servos[0].min, settings.servos[0].max))+1
+            settings.servos[0].movePWM(newAngle)
+            print('if')
+            print(newAngle)
+        elif (settings.servos[0].prevAngle < value):
+            time.sleep(.5)
+            newAngle = math.floor(settings.servos[0].scale(value,0,180,settings.servos[0].min, settings.servos[0].max))-1
+            settings.servos[0].movePWM(newAngle)
+            print('else')
+            print(newAngle)
 
-        print(value)
+        settings.servos[0].prevAngle = value
