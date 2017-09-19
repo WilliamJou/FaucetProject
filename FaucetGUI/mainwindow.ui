@@ -186,6 +186,19 @@
      <string>Faucet Handle Control</string>
     </property>
    </widget>
+   <widget class="QPushButton" name="pshBut2">
+    <property name="geometry">
+     <rect>
+      <x>550</x>
+      <y>150</y>
+      <width>91</width>
+      <height>29</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>PushButton</string>
+    </property>
+   </widget>
   </widget>
   <widget class="QMenuBar" name="menuBar">
    <property name="geometry">

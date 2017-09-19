@@ -39,24 +39,30 @@ class servo(object):
 		self.moveAngle(self.angle)
 
 	def scale(self, value, low, high, newlow, newhigh):
-		newVal = newlow + (newhigh - newlow)/(high-low)*(value-low)
+		newVal = newlow + (value-low)*(newhigh - newlow)/(high-low)
+		return newVal
 		
 	def moveAngle(self, angle):
-            if self.direction =="cw"
+            if (self.direction == "cw"):
                 self.angle = angle
+                print('pwm:', self.pwm)
+                print(angle)
+                #print(self.min, self.max)
                 self.pwm = self.scale(angle,0,180,self.min, self.max)
                 print('pwm: ', self.pwm)
                 settings.mainControl.move(self.pin, self.pwm)
-	    elif self.direction == "ccw":
- 		self.angle = angle
- 		self.pwm = self.scale(angle,180,0,self.min, self.max)
- 		print('pwm: ', self.pwm)
- 		settings.mainControl.move(self.pin, self.pwm)               
+            elif (self.direction == "ccw"):
+                self.angle = angle
+                self.pwm = self.scale(angle,180,0,self.min, self.max)
+                print('pwm: ', self.pwm)
+                settings.mainControl.move(self.pin, self.pwm)               
                 
 	def movePWM(self, pwm):
-		self.angle = (pwm - self.min) / (self.max - self.min) * 180 - 90
-##		self.per = (pwm - self.min) / (self.max - self.min) * 100
-		settings.mainControl.move(self.pin, pwm)
+            if (self.direction == "cw"):
+                self.angle = (pwm - self.min) / (self.max - self.min) * 180 - 90
+                settings.mainControl.move(self.pin, pwm)
+            elif (self.direction =="ccw"):
+                settings.mainControl.move(self.pin, (self.max-pwm+self.min))
 
 	def movePer(self, per):
 		self.angle = (180 * per / 100) - 90

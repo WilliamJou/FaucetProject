@@ -2,7 +2,7 @@
 
 # Form implementation generated from reading ui file 'mainwindow.ui'
 #
-# Created by: PyQt5 UI code generator 5.9
+# Created by: PyQt5 UI code generator 5.7
 #
 # WARNING! All changes made in this file will be lost!
 
@@ -62,6 +62,9 @@ class Ui_MainWindow(object):
         self.manualButton = QtWidgets.QRadioButton(self.centralWidget)
         self.manualButton.setGeometry(QtCore.QRect(110, 100, 261, 41))
         self.manualButton.setObjectName("manualButton")
+        self.pshBut2 = QtWidgets.QPushButton(self.centralWidget)
+        self.pshBut2.setGeometry(QtCore.QRect(550, 150, 91, 29))
+        self.pshBut2.setObjectName("pshBut2")
         MainWindow.setCentralWidget(self.centralWidget)
         self.menuBar = QtWidgets.QMenuBar(MainWindow)
         self.menuBar.setGeometry(QtCore.QRect(0, 0, 890, 26))
@@ -86,4 +89,5 @@ class Ui_MainWindow(object):
         self.label_3.setText(_translate("MainWindow", "Cold"))
         self.label_4.setText(_translate("MainWindow", "Hot"))
         self.manualButton.setText(_translate("MainWindow", "Faucet Handle Control"))
+        self.pshBut2.setText(_translate("MainWindow", "PushButton"))
 
