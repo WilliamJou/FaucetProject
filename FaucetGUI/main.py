@@ -100,8 +100,11 @@ class MainWindow(QMainWindow, mainwindow_auto.Ui_MainWindow):
         MOSI = 9
         CS   = 11
         self.mcp = Adafruit_MCP3008.MCP3008(clk=CLK, cs=CS, miso=MISO, mosi=MOSI)
-        self.potRange = [[250,660],[10,20]]
-        self.prevPot = [self.scale(self.constrain(self.mcp.read_adc(self.channel[0]),self.potRange[0][0], self.potRange[0][1]), self.potRange[0][0], self.potRange[1][0] ,settings.servos[0].min, settings.servos[0].max),self.mcp.read_adc(self.channel[1])]
+        self.potRange = [[250,660],[0,410]]
+        self.prevPot = [self.scale(self.constrain(self.mcp.read_adc(self.channel[0]),self.potRange[0][0], self.potRange[0][1]), self.potRange[0][0], self.potRange[0][1] ,0, 180),
+                        self.scale(self.constrain(self.mcp.read_adc(self.channel[1]),self.potRange[1][0], self.potRange[1][1]), self.potRange[1][0], self.potRange[1][1] ,0, 180)]
+        settings.servos[0].movePWM(settings.servos[0].min+1)
+        settings.servos[1].movePWM(settings.servos[1].min+1)
 ###Threaded Functions
     def scale(self, value, low, high, newlow, newhigh):
         newVal = newlow + (value-low)*(newhigh - newlow)/(high-low)
@@ -114,40 +117,38 @@ class MainWindow(QMainWindow, mainwindow_auto.Ui_MainWindow):
 
     def execute_this(self, progress_callback):
         while self.manualButton.isChecked():
-            time.sleep(1)
-            print('in manual loop')
+            time.sleep(.2)
+            #print('in manual loop')
             val = [0,0]
-            print('potentiometer value: ', self.mcp.read_adc(self.channel[0]))
-            for i in range (0,1):
+            #print('cold potentiometer value: ', self.mcp.read_adc(self.channel[0]))
+            #print('hot potentiometer value: ', self.mcp.read_adc(self.channel[1]))
+            for i in range (0,2):
                 val[i] = int(self.mcp.read_adc(self.channel[i]))
-                print('this is testing constrain: ', self.constrain(val[i], self.potRange[0][0], self.potRange[0][1]))
-                val[i]= self.scale(self.constrain(val[i], self.potRange[0][0], self.potRange[0][1]), self.potRange[0][0], self.potRange[0][1] ,settings.servos[0].min, settings.servos[0].max) #float pwm
-                print('with constraints val[i]: ', val[i])
-                print('Previous Potentiometer Value: ', self.prevPot[0])
-                if abs(val[i] -  self.prevPot[i]) > 1:
-                    print('turned faucet handle')
+                #print(i, 'this is testing constrain : ', self.constrain(val[i], self.potRange[0][0], self.potRange[0][1]))
+                #val[i] = pwm value now
+                
+                #val[i]= self.scale(self.constrain(val[i], self.potRange[i][0], self.potRange[i][1]), self.potRange[i][0], self.potRange[i][1] ,settings.servos[i].min, settings.servos[i].max) #float pwm
+                #print('value of i ', val[i])
+                pot2deg = self.scale(self.constrain(val[i], self.potRange[i][0], self.potRange[i][1]),self.potRange[i][0], self.potRange[i][1], 0, 180)
+                Rounded = round(pot2deg/22.5)*22.5
+                #print(i, 'Previous Potentiometer Value: ', self.prevPot[i])
+                if abs(pot2deg -  self.prevPot[i]) > 2:
+                    print('Handle Engaged')
+                    print('current value', val[i])
+                    print('previous potentiometer value', self.prevPot[i])
                     if i == 0:
+                        #pot2deg = self.scale(self.constrain(self.mcp.read_adc(self.channel[i]), self.potRange[i][0], self.potRange[i][1]),self.potRange[i][0], self.potRange[i][1], 0, 180)
+                        Rounded = round(pot2deg/22.5)*22.5
                         #val[i]= self.constrain(self.scale(val[i],self.potRange[0][0], self.potRange[1][0] ,settings.servos[0].min, settings.servos[0].max),0,180)
-                        #print("constrained value: ", val[i])
-                        angle = self.scale(val[i], settings.servos[0].min, settings.servos[0].max, 0,180) #scale current pwm to angle
-                        previous = self.scale(self.prevPot[i], settings.servos[i].min, settings.servos[i].max, 0 ,180) #scale previous pwm to angle
-                        print(settings.servos[0].prevAngle)
-                        print('move Angle; ', settings.servos[0].prevAngle + angle -previous)
-                        settings.servos[i].moveAngle(settings.servos[0].prevAngle + angle - previous)
-                        '''if (self.prevPot[i]> val[i]):
-                            time.sleep(.5)
-                            newAngle = math.floor(self.scale((settings.servos[0].prevAngle + angle - previous),0,180,settings.servos[0].min, settings.servos[0].max))+1
-                            settings.servos[0].movePWM(newAngle)
-                            print('if')
-                            print(newAngle)
-                        elif (self.prevPot[i] < val[i]):
-                            time.sleep(.5)
-                            newAngle = math.floor(self.scale((settings.servos[0].prevAngle + angle - previous),0,180,settings.servos[0].min, settings.servos[0].max))-1
-                            settings.servos[0].movePWM(newAngle)
-                            print('else')
-                            print(newAngle)'''
-                    self.prevPot[i] = val[i]
-                    settings.servos[0].prevAngle = self.scale(self.constrain(self.mcp.read_adc(self.channel[i]), self.potRange[0][0], self.potRange[0][1]), self.potRange[0][0], self.potRange[0][1], 0,180)
+                        self.cSlider.setValue(Rounded)
+                    if i == 1:
+                        #pot2deg = self.scale(self.constrain(self.mcp.read_adc(self.channel[i]), self.potRange[i][0], self.potRange[i][1]),self.potRange[i][0], self.potRange[i][1], 0, 180)
+                        Rounded = round(pot2deg/22.5)*22.5
+                        #val[i]= self.constrain(self.scale(val[i],self.potRange[0][0], self.potRange[1][0] ,settings.servos[0].min, settings.servos[0].max),0,180)
+                        self.hSlider.setValue(Rounded)
+                    self.prevPot[i] = pot2deg
+                    #Scales potentiometer reading into degrees
+                    #settings.servos[i].prevAngle = self.scale(self.constrain(self.mcp.read_adc(self.channel[i]), self.potRange[i][0], self.potRange[i][1]), self.potRange[i][0], self.potRange[i][1], 0,180)
             progress_callback.emit(val)
         return "Done."
     def print_output(self,s):
@@ -155,7 +156,6 @@ class MainWindow(QMainWindow, mainwindow_auto.Ui_MainWindow):
     def thread_complete(self):
         print("THREAD COMPLETE")
     def oh_no(self):
-        
         worker = Worker(self.execute_this)
         worker.signals.result.connect(self.print_output)
         worker.signals.finished.connect(self.thread_complete)
@@ -163,64 +163,72 @@ class MainWindow(QMainWindow, mainwindow_auto.Ui_MainWindow):
         self.threadpool.start(worker)
 ### Gui Functions    
     def pushButtonClicked(self):
-        time.sleep(5)
+        time.sleep(1)
         print("pushed!")
-
+        self.cSlider.setValue(180)
+        
     def cSliderMoved(self, value):
+        print('Cold Value set to:', value)
+        print('prevangle:', settings.servos[0].prevAngle)
         newAngle = 0
         settings.servos[0].index = int(round(value/22.5))
-        print('index: ', settings.servos[0].index)
+        #print('index: ', settings.servos[0].index)
         value = round(value/22.5)*22.5 #input = degrees, output scaled to 22.5 intervals
+        print('rounded value', value)
 ##        self.cSlider.setValue(value)
-        settings.servos[0].moveAngle(value)
-        print('temperature: ', (settings.servos[0].temp[settings.servos[0].index][settings.servos[1].index]))
+        #settings.servos[0].moveAngle(value)
+        #print('temperature: ', (settings.servos[0].temp[settings.servos[0].index][settings.servos[1].index]))
         self.txtTemp.setText(str(settings.servos[0].temp[settings.servos[0].index][settings.servos[1].index]))
-        print('flow rate: ', (settings.servos[0].flow[settings.servos[0].index][settings.servos[1].index]))
+        #print('flow rate: ', (settings.servos[0].flow[settings.servos[0].index][settings.servos[1].index]))
         self.txtFlow.setText(str(settings.servos[0].flow[settings.servos[0].index][settings.servos[1].index]))
-        print('previous angle: ', settings.servos[0].prevAngle)
-        print('current value: ', value)
-        if (settings.servos[0].prevAngle> value):
+        #print('previous angle: ', settings.servos[0].prevAngle)
+        #print('current value: ', value)
+        if (settings.servos[0].prevAngle> value) and (abs(settings.servos[0].prevAngle-value)>12.5):
+            settings.servos[0].moveAngle(value)
             time.sleep(.5)
             newAngle = math.floor(settings.servos[0].scale(value,0,180,settings.servos[0].min, settings.servos[0].max))+1
             settings.servos[0].movePWM(newAngle)
-            print('if')
-            print(newAngle)
-        elif (settings.servos[0].prevAngle < value):
+            print('close')
+            settings.servos[0].prevAngle = value
+            #print(newAngle)
+        elif (settings.servos[0].prevAngle < value) and (abs(settings.servos[0].prevAngle-value)>12.5):
+            settings.servos[0].moveAngle(value)
             time.sleep(.5)
             newAngle = math.floor(settings.servos[0].scale(value,0,180,settings.servos[0].min, settings.servos[0].max))-1
             settings.servos[0].movePWM(newAngle)
-            print('else')
-            print(newAngle)
+            print('open')
+            settings.servos[0].prevAngle = value
+            #print(newAngle)
 
-        settings.servos[0].prevAngle = value
+        #settings.servos[0].prevAngle = value
     
     #Hot Slider
     
     def hSliderMoved(self, value):
         newAngle = 0
-        settings.servos[1].index = round(value/22.5)
-        print('index: ', settings.servos[1].index)
+        settings.servos[1].index = int(round(value/22.5))
+        #print('cold servo index:', settings.servos[0].index)
+        #print('hot servo index:', settings.servos[1].index)
+        #print('index: ', settings.servos[1].index)
         value = round(value/22.5)*22.5 #input = degrees, output scaled to 22.5 intervals
 ##        self.cSlider.setValue(value)
-        settings.servos[1].moveAngle(value)
+        #settings.servos[1].moveAngle(value)
 ## update output values        
-        print('temperature: ', (settings.servos[1].temp[settings.servos[0].index][settings.servos[1].index]))
-        self.txtTemp.setText(str(settings.servos[1].temp[settings.servos[0].index][settings.servos[1].index]))
-        print('flow rate: ', (settings.servos[0].flow[settings.servos[0].index][settings.servos[1].index]))
+        #print('temperature: ', (settings.servos[0].temp[settings.servos[0].index][settings.servos[1].index]))
+        self.txtTemp.setText(str(settings.servos[0].temp[settings.servos[0].index][settings.servos[1].index]))
+        #print('flow rate: ', (settings.servos[0].flow[settings.servos[0].index][settings.servos[1].index]))
         self.txtFlow.setText(str(settings.servos[0].flow[settings.servos[0].index][settings.servos[1].index]))
-        
-        print('previous angle: ', settings.servos[1].prevAngle)
-        print('current value: ', value)
-        if (settings.servos[1].prevAngle> value):
+        if (settings.servos[1].prevAngle> value) and (abs(settings.servos[1].prevAngle-value)>12.5):
+            settings.servos[1].moveAngle(value)
             time.sleep(.5)
             newAngle = math.floor(settings.servos[1].scale(value,0,180,settings.servos[1].min, settings.servos[1].max))+1
             settings.servos[1].movePWM(newAngle)
-            print('if')
-            print(newAngle)
-        elif (settings.servos[0].prevAngle < value):
+            settings.servos[1].prevAngle = value
+        elif (settings.servos[1].prevAngle < value) and (abs(settings.servos[1].prevAngle-value)>12.5):
+            settings.servos[1].moveAngle(value)
             time.sleep(.5)
             newAngle = math.floor(settings.servos[1].scale(value,0,180,settings.servos[1].min, settings.servos[1].max))-1
             settings.servos[1].movePWM(newAngle)
-            print('else')
-            print(newAngle)
+            settings.servos[1].prevAngle = value
+        
 

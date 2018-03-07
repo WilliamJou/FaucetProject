@@ -45,16 +45,16 @@ class servo(object):
 	def moveAngle(self, angle):
             if (self.direction == "cw"):
                 self.angle = angle
-                print('pwm:', self.pwm)
-                print(angle)
+                #print('pwm:', self.pwm)
+                #print(angle)
                 #print(self.min, self.max)
                 self.pwm = self.scale(angle,0,180,self.min, self.max)
-                print('pwm: ', self.pwm)
+                #print('pwm: ', self.pwm)
                 settings.mainControl.move(self.pin, self.pwm)
             elif (self.direction == "ccw"):
                 self.angle = angle
                 self.pwm = self.scale(angle,180,0,self.min, self.max)
-                print('pwm: ', self.pwm)
+                #print('pwm: ', self.pwm)
                 settings.mainControl.move(self.pin, self.pwm)               
                 
 	def movePWM(self, pwm):
