@@ -10,6 +10,7 @@ from PyQt5.QtCore import *
 import settings
 # This is our window from QtCreator
 import mainwindow_auto
+import mainwindow
 import time
 import traceback
 import Adafruit_GPIO.SPI as SPI
@@ -75,7 +76,7 @@ class Worker(QRunnable):
             self.signals.finished.emit()  # Done
 
 # create class for our Raspberry Pi GUI
-class MainWindow(QMainWindow, mainwindow_auto.Ui_MainWindow):
+class MainWindow(QMainWindow, mainwindow.Ui_MainWindow):
     # access variables inside of the UI's file
     def __init__(self):
         super(self.__class__, self).__init__()
@@ -94,6 +95,24 @@ class MainWindow(QMainWindow, mainwindow_auto.Ui_MainWindow):
         self.hSlider.valueChanged.connect(lambda:self.hSliderMoved(self.hSlider.value()))
         self.txtTemp.returnPressed.connect(lambda:self.txtTempChanged(self.txtTemp.text()))
         self.txtFlow.returnPressed.connect(lambda:self.txtFlowChanged(self.txtFlow.text()))
+        self.c0.clicked.connect(lambda: self.c0Clicked())
+        self.c1.clicked.connect(lambda: self.c1Clicked())
+        self.c2.clicked.connect(lambda: self.c2Clicked())
+        self.c3.clicked.connect(lambda: self.c3Clicked())
+        self.c4.clicked.connect(lambda: self.c4Clicked())
+        self.c5.clicked.connect(lambda: self.c5Clicked())
+        self.c6.clicked.connect(lambda: self.c6Clicked())
+        self.c7.clicked.connect(lambda: self.c7Clicked())
+        self.c8.clicked.connect(lambda: self.c8Clicked())
+        self.h0.clicked.connect(lambda: self.h0Clicked())
+        self.h1.clicked.connect(lambda: self.h1Clicked())
+        self.h2.clicked.connect(lambda: self.h2Clicked())
+        self.h3.clicked.connect(lambda: self.h3Clicked())
+        self.h4.clicked.connect(lambda: self.h4Clicked())
+        self.h5.clicked.connect(lambda: self.h5Clicked())
+        self.h6.clicked.connect(lambda: self.h6Clicked())
+        self.h7.clicked.connect(lambda: self.h7Clicked())
+        self.h8.clicked.connect(lambda: self.h8Clicked())
         self.channel = [6,7]
         CLK  = 23
         MISO = 10
@@ -165,7 +184,44 @@ class MainWindow(QMainWindow, mainwindow_auto.Ui_MainWindow):
         worker.signals.finished.connect(self.thread_complete)
         worker.signals.progress.connect(self.progress_fn)
         self.threadpool.start(worker)
-### Gui Functions    
+### Gui Functions
+    def c0Clicked(self):
+        self.cSlider.setValue(0)
+    def c1Clicked(self):
+        self.cSlider.setValue(1*22.5)
+    def c2Clicked(self):
+        self.cSlider.setValue(2*22.5)
+    def c3Clicked(self):
+        self.cSlider.setValue(3*22.5)
+    def c4Clicked(self):
+        self.cSlider.setValue(4*22.5)
+    def c5Clicked(self):
+        self.cSlider.setValue(5*22.5)
+    def c6Clicked(self):
+        self.cSlider.setValue(6*22.5)
+    def c7Clicked(self):
+        self.cSlider.setValue(7*22.5)
+    def c8Clicked(self):
+        self.cSlider.setValue(8*22.5)
+    #Hot Buttons
+    def h0Clicked(self):
+        self.hSlider.setValue(0)
+    def h1Clicked(self):
+        self.hSlider.setValue(1*22.5)
+    def h2Clicked(self):
+        self.hSlider.setValue(2*22.5)
+    def h3Clicked(self):
+        self.hSlider.setValue(3*22.5)
+    def h4Clicked(self):
+        self.hSlider.setValue(4*22.5)
+    def h5Clicked(self):
+        self.hSlider.setValue(5*22.5)
+    def h6Clicked(self):
+        self.hSlider.setValue(6*22.5)
+    def h7Clicked(self):
+        self.hSlider.setValue(7*22.5)
+    def h8Clicked(self):
+        self.hSlider.setValue(8*22.5)    
     def pushButtonClicked(self):
         print("pushed!")
         for i in range(0,2):
