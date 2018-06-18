@@ -89,7 +89,6 @@ class MainWindow(QMainWindow, mainwindow.Ui_MainWindow):
         
         #Listeners
         self.manualButton.toggled.connect(lambda:self.oh_no())
-        self.pushButton.clicked.connect(lambda: self.pushButtonClicked())
         self.pshBut2.clicked.connect(lambda: self.oh_no())
         self.cSlider.valueChanged.connect(lambda:self.cSliderMoved(self.cSlider.value()))
         self.hSlider.valueChanged.connect(lambda:self.hSliderMoved(self.hSlider.value()))
@@ -113,13 +112,77 @@ class MainWindow(QMainWindow, mainwindow.Ui_MainWindow):
         self.h6.clicked.connect(lambda: self.h6Clicked())
         self.h7.clicked.connect(lambda: self.h7Clicked())
         self.h8.clicked.connect(lambda: self.h8Clicked())
+        self.b11.clicked.connect(lambda: self.b11Clicked())
+        self.b12.clicked.connect(lambda: self.b12Clicked())
+        self.b13.clicked.connect(lambda: self.b13Clicked())
+        self.b14.clicked.connect(lambda: self.b14Clicked())
+        self.b15.clicked.connect(lambda: self.b15Clicked())
+        self.b16.clicked.connect(lambda: self.b16Clicked())
+        self.b17.clicked.connect(lambda: self.b17Clicked())
+        self.b18.clicked.connect(lambda: self.b18Clicked())
+        self.b21.clicked.connect(lambda: self.b21Clicked())
+        self.b22.clicked.connect(lambda: self.b22Clicked())
+        self.b23.clicked.connect(lambda: self.b23Clicked())
+        self.b24.clicked.connect(lambda: self.b24Clicked())
+        self.b25.clicked.connect(lambda: self.b25Clicked())
+        self.b26.clicked.connect(lambda: self.b26Clicked())
+        self.b27.clicked.connect(lambda: self.b27Clicked())
+        self.b28.clicked.connect(lambda: self.b28Clicked())
+        self.b31.clicked.connect(lambda: self.b31Clicked())
+        self.b32.clicked.connect(lambda: self.b32Clicked())
+        self.b33.clicked.connect(lambda: self.b33Clicked())
+        self.b34.clicked.connect(lambda: self.b34Clicked())
+        self.b35.clicked.connect(lambda: self.b35Clicked())
+        self.b36.clicked.connect(lambda: self.b36Clicked())
+        self.b37.clicked.connect(lambda: self.b37Clicked())
+        self.b38.clicked.connect(lambda: self.b38Clicked())
+        self.b41.clicked.connect(lambda: self.b41Clicked())
+        self.b42.clicked.connect(lambda: self.b42Clicked())
+        self.b43.clicked.connect(lambda: self.b43Clicked())
+        self.b44.clicked.connect(lambda: self.b44Clicked())
+        self.b45.clicked.connect(lambda: self.b45Clicked())
+        self.b46.clicked.connect(lambda: self.b46Clicked())
+        self.b47.clicked.connect(lambda: self.b47Clicked())
+        self.b48.clicked.connect(lambda: self.b48Clicked())
+        self.b51.clicked.connect(lambda: self.b51Clicked())
+        self.b52.clicked.connect(lambda: self.b52Clicked())
+        self.b53.clicked.connect(lambda: self.b53Clicked())
+        self.b54.clicked.connect(lambda: self.b54Clicked())
+        self.b55.clicked.connect(lambda: self.b55Clicked())
+        self.b56.clicked.connect(lambda: self.b56Clicked())
+        self.b57.clicked.connect(lambda: self.b57Clicked())
+        self.b58.clicked.connect(lambda: self.b58Clicked())
+        self.b61.clicked.connect(lambda: self.b61Clicked())
+        self.b62.clicked.connect(lambda: self.b62Clicked())
+        self.b63.clicked.connect(lambda: self.b63Clicked())
+        self.b64.clicked.connect(lambda: self.b64Clicked())
+        self.b65.clicked.connect(lambda: self.b65Clicked())
+        self.b66.clicked.connect(lambda: self.b66Clicked())
+        self.b67.clicked.connect(lambda: self.b67Clicked())
+        self.b68.clicked.connect(lambda: self.b68Clicked())
+        self.b71.clicked.connect(lambda: self.b71Clicked())
+        self.b72.clicked.connect(lambda: self.b72Clicked())
+        self.b73.clicked.connect(lambda: self.b73Clicked())
+        self.b74.clicked.connect(lambda: self.b74Clicked())
+        self.b75.clicked.connect(lambda: self.b75Clicked())
+        self.b76.clicked.connect(lambda: self.b76Clicked())
+        self.b77.clicked.connect(lambda: self.b77Clicked())
+        self.b78.clicked.connect(lambda: self.b78Clicked())
+        self.b81.clicked.connect(lambda: self.b81Clicked())
+        self.b82.clicked.connect(lambda: self.b82Clicked())
+        self.b83.clicked.connect(lambda: self.b83Clicked())
+        self.b84.clicked.connect(lambda: self.b84Clicked())
+        self.b85.clicked.connect(lambda: self.b85Clicked())
+        self.b86.clicked.connect(lambda: self.b86Clicked())
+        self.b87.clicked.connect(lambda: self.b87Clicked())
+        self.b88.clicked.connect(lambda: self.b88Clicked())
         self.channel = [6,7]
         CLK  = 23
         MISO = 10
         MOSI = 9
         CS   = 11
         self.mcp = Adafruit_MCP3008.MCP3008(clk=CLK, cs=CS, miso=MISO, mosi=MOSI)
-        self.potRange = [[250,660],[0,410]]
+        self.potRange = [[200,610],[25,410]]
         self.prevPot = [self.scale(self.constrain(self.mcp.read_adc(self.channel[0]),self.potRange[0][0], self.potRange[0][1]), self.potRange[0][0], self.potRange[0][1] ,0, 180),
                         self.scale(self.constrain(self.mcp.read_adc(self.channel[1]),self.potRange[1][0], self.potRange[1][1]), self.potRange[1][0], self.potRange[1][1] ,0, 180)]
         settings.servos[0].movePWM(settings.servos[0].min+1)
@@ -147,13 +210,16 @@ class MainWindow(QMainWindow, mainwindow.Ui_MainWindow):
                 #val[i] = pwm value now
                 
                 #val[i]= self.scale(self.constrain(val[i], self.potRange[i][0], self.potRange[i][1]), self.potRange[i][0], self.potRange[i][1] ,settings.servos[i].min, settings.servos[i].max) #float pwm
-                #print('value of i ', val[i])
+                print('value of i ', val[i])
                 pot2deg = self.scale(self.constrain(val[i], self.potRange[i][0], self.potRange[i][1]),self.potRange[i][0], self.potRange[i][1], 0, 180)
                 Rounded = round(pot2deg/22.5)*22.5
-
-                print('Current Potentiometer Reading of', i, pot2deg)
-                print('Previous potentiometer value of', i, self.prevPot[i])
-                #print(i, 'Previous Potentiometer Value: ', self.prevPot[i])
+                if i == 0:
+                    print('Current Cold potentiometer reading of', pot2deg)
+                    print('Previous Cold potentiometer value of', self.prevPot[i])
+                elif i == 1:
+                    print('Current Hot potentiometer reading of', pot2deg)
+                    print('Previous Hot potentiometer value of', self.prevPot[i])
+                    #print(i, 'Previous Potentiometer Value: ', self.prevPot[i])
                 if abs(pot2deg -  self.prevPot[i]) > 5:
                     print('Handle Engaged', i)
                     print('Current Potentiometer Reading of', i, pot2deg)
@@ -187,41 +253,251 @@ class MainWindow(QMainWindow, mainwindow.Ui_MainWindow):
 ### Gui Functions
     def c0Clicked(self):
         self.cSlider.setValue(0)
+        self.hSlider.setValue(0)
     def c1Clicked(self):
         self.cSlider.setValue(1*22.5)
+        self.hSlider.setValue(0)
     def c2Clicked(self):
         self.cSlider.setValue(2*22.5)
+        self.hSlider.setValue(0)
     def c3Clicked(self):
         self.cSlider.setValue(3*22.5)
+        self.hSlider.setValue(0)
     def c4Clicked(self):
         self.cSlider.setValue(4*22.5)
+        self.hSlider.setValue(0)
     def c5Clicked(self):
         self.cSlider.setValue(5*22.5)
+        self.hSlider.setValue(0)
     def c6Clicked(self):
         self.cSlider.setValue(6*22.5)
+        self.hSlider.setValue(0)
     def c7Clicked(self):
         self.cSlider.setValue(7*22.5)
+        self.hSlider.setValue(0)
     def c8Clicked(self):
         self.cSlider.setValue(8*22.5)
+        self.hSlider.setValue(0)
     #Hot Buttons
     def h0Clicked(self):
         self.hSlider.setValue(0)
+        self.cSlider.setValue(0)
     def h1Clicked(self):
         self.hSlider.setValue(1*22.5)
+        self.cSlider.setValue(0)
     def h2Clicked(self):
         self.hSlider.setValue(2*22.5)
+        self.cSlider.setValue(0)
     def h3Clicked(self):
         self.hSlider.setValue(3*22.5)
+        self.cSlider.setValue(0)
     def h4Clicked(self):
         self.hSlider.setValue(4*22.5)
+        self.cSlider.setValue(0)
     def h5Clicked(self):
         self.hSlider.setValue(5*22.5)
+        self.cSlider.setValue(0)
     def h6Clicked(self):
         self.hSlider.setValue(6*22.5)
+        self.cSlider.setValue(0)
     def h7Clicked(self):
         self.hSlider.setValue(7*22.5)
+        self.cSlider.setValue(0)
     def h8Clicked(self):
-        self.hSlider.setValue(8*22.5)    
+        self.hSlider.setValue(8*22.5)
+        self.cSlider.setValue(0)
+    def b11Clicked(self):
+        self.cSlider.setValue(1*22.5)
+        self.hSlider.setValue(1*22.5)
+    def b12Clicked(self):
+        self.cSlider.setValue(1*22.5)
+        self.hSlider.setValue(2*22.5)
+    def b13Clicked(self):
+        self.cSlider.setValue(1*22.5)
+        self.hSlider.setValue(3*22.5)
+    def b14Clicked(self):
+        self.cSlider.setValue(1*22.5)
+        self.hSlider.setValue(4*22.5)
+    def b15Clicked(self):
+        self.cSlider.setValue(1*22.5)
+        self.hSlider.setValue(5*22.5)
+    def b16Clicked(self):
+        self.cSlider.setValue(1*22.5)
+        self.hSlider.setValue(6*22.5)
+    def b17Clicked(self):
+        self.cSlider.setValue(1*22.5)
+        self.hSlider.setValue(7*22.5)
+    def b18Clicked(self):
+        self.cSlider.setValue(1*22.5)
+        self.hSlider.setValue(8*22.5)
+    def b21Clicked(self):
+        self.cSlider.setValue(2*22.5)
+        self.hSlider.setValue(1*22.5)
+    def b22Clicked(self):
+        self.cSlider.setValue(2*22.5)
+        self.hSlider.setValue(2*22.5)
+    def b23Clicked(self):
+        self.cSlider.setValue(2*22.5)
+        self.hSlider.setValue(3*22.5)
+    def b24Clicked(self):
+        self.cSlider.setValue(2*22.5)
+        self.hSlider.setValue(4*22.5)
+    def b25Clicked(self):
+        self.cSlider.setValue(2*22.5)
+        self.hSlider.setValue(5*22.5)
+    def b26Clicked(self):
+        self.cSlider.setValue(2*22.5)
+        self.hSlider.setValue(6*22.5)
+    def b27Clicked(self):
+        self.cSlider.setValue(2*22.5)
+        self.hSlider.setValue(7*22.5)
+    def b28Clicked(self):
+        self.cSlider.setValue(2*22.5)
+        self.hSlider.setValue(8*22.5)
+    def b31Clicked(self):
+        self.cSlider.setValue(3*22.5)
+        self.hSlider.setValue(1*22.5)
+    def b32Clicked(self):
+        self.cSlider.setValue(3*22.5)
+        self.hSlider.setValue(2*22.5)
+    def b33Clicked(self):
+        self.cSlider.setValue(3*22.5)
+        self.hSlider.setValue(3*22.5)
+    def b34Clicked(self):
+        self.cSlider.setValue(3*22.5)
+        self.hSlider.setValue(4*22.5)
+    def b35Clicked(self):
+        self.cSlider.setValue(3*22.5)
+        self.hSlider.setValue(5*22.5)
+    def b36Clicked(self):
+        self.cSlider.setValue(3*22.5)
+        self.hSlider.setValue(6*22.5)
+    def b37Clicked(self):
+        self.cSlider.setValue(3*22.5)
+        self.hSlider.setValue(7*22.5)
+    def b38Clicked(self):
+        self.cSlider.setValue(3*22.5)
+        self.hSlider.setValue(8*22.5)
+    def b41Clicked(self):
+        self.cSlider.setValue(4*22.5)
+        self.hSlider.setValue(1*22.5)
+    def b42Clicked(self):
+        self.cSlider.setValue(4*22.5)
+        self.hSlider.setValue(2*22.5)
+    def b43Clicked(self):
+        self.cSlider.setValue(4*22.5)
+        self.hSlider.setValue(3*22.5)
+    def b44Clicked(self):
+        self.cSlider.setValue(4*22.5)
+        self.hSlider.setValue(4*22.5)
+    def b45Clicked(self):
+        self.cSlider.setValue(4*22.5)
+        self.hSlider.setValue(5*22.5)
+    def b46Clicked(self):
+        self.cSlider.setValue(4*22.5)
+        self.hSlider.setValue(6*22.5)
+    def b47Clicked(self):
+        self.cSlider.setValue(4*22.5)
+        self.hSlider.setValue(7*22.5)
+    def b48Clicked(self):
+        self.cSlider.setValue(4*22.5)
+        self.hSlider.setValue(8*22.5)
+    def b51Clicked(self):
+        self.cSlider.setValue(5*22.5)
+        self.hSlider.setValue(1*22.5)
+    def b52Clicked(self):
+        self.cSlider.setValue(5*22.5)
+        self.hSlider.setValue(2*22.5)
+    def b53Clicked(self):
+        self.cSlider.setValue(5*22.5)
+        self.hSlider.setValue(3*22.5)
+    def b54Clicked(self):
+        self.cSlider.setValue(5*22.5)
+        self.hSlider.setValue(4*22.5)
+    def b55Clicked(self):
+        self.cSlider.setValue(5*22.5)
+        self.hSlider.setValue(5*22.5)
+    def b56Clicked(self):
+        self.cSlider.setValue(5*22.5)
+        self.hSlider.setValue(6*22.5)
+    def b57Clicked(self):
+        self.cSlider.setValue(5*22.5)
+        self.hSlider.setValue(7*22.5)
+    def b58Clicked(self):
+        self.cSlider.setValue(5*22.5)
+        self.hSlider.setValue(8*22.5)
+    def b61Clicked(self):
+        self.cSlider.setValue(6*22.5)
+        self.hSlider.setValue(1*22.5)
+    def b62Clicked(self):
+        self.cSlider.setValue(6*22.5)
+        self.hSlider.setValue(2*22.5)
+    def b63Clicked(self):
+        self.cSlider.setValue(6*22.5)
+        self.hSlider.setValue(3*22.5)
+    def b64Clicked(self):
+        self.cSlider.setValue(6*22.5)
+        self.hSlider.setValue(4*22.5)
+    def b65Clicked(self):
+        self.cSlider.setValue(6*22.5)
+        self.hSlider.setValue(5*22.5)
+    def b66Clicked(self):
+        self.cSlider.setValue(6*22.5)
+        self.hSlider.setValue(6*22.5)
+    def b67Clicked(self):
+        self.cSlider.setValue(6*22.5)
+        self.hSlider.setValue(7*22.5)
+    def b68Clicked(self):
+        self.cSlider.setValue(6*22.5)
+        self.hSlider.setValue(8*22.5)
+    def b71Clicked(self):
+        self.cSlider.setValue(7*22.5)
+        self.hSlider.setValue(1*22.5)
+    def b72Clicked(self):
+        self.cSlider.setValue(7*22.5)
+        self.hSlider.setValue(2*22.5)
+    def b73Clicked(self):
+        self.cSlider.setValue(7*22.5)
+        self.hSlider.setValue(3*22.5)
+    def b74Clicked(self):
+        self.cSlider.setValue(7*22.5)
+        self.hSlider.setValue(4*22.5)
+    def b75Clicked(self):
+        self.cSlider.setValue(7*22.5)
+        self.hSlider.setValue(5*22.5)
+    def b76Clicked(self):
+        self.cSlider.setValue(7*22.5)
+        self.hSlider.setValue(6*22.5)
+    def b77Clicked(self):
+        self.cSlider.setValue(7*22.5)
+        self.hSlider.setValue(7*22.5)
+    def b78Clicked(self):
+        self.cSlider.setValue(7*22.5)
+        self.hSlider.setValue(8*22.5)
+    def b81Clicked(self):
+        self.cSlider.setValue(8*22.5)
+        self.hSlider.setValue(1*22.5)
+    def b82Clicked(self):
+        self.cSlider.setValue(8*22.5)
+        self.hSlider.setValue(2*22.5)
+    def b83Clicked(self):
+        self.cSlider.setValue(8*22.5)
+        self.hSlider.setValue(3*22.5)
+    def b84Clicked(self):
+        self.cSlider.setValue(8*22.5)
+        self.hSlider.setValue(4*22.5)
+    def b85Clicked(self):
+        self.cSlider.setValue(8*22.5)
+        self.hSlider.setValue(5*22.5)
+    def b86Clicked(self):
+        self.cSlider.setValue(8*22.5)
+        self.hSlider.setValue(6*22.5)
+    def b87Clicked(self):
+        self.cSlider.setValue(8*22.5)
+        self.hSlider.setValue(7*22.5)
+    def b88Clicked(self):
+        self.cSlider.setValue(8*22.5)
+        self.hSlider.setValue(8*22.5)
     def pushButtonClicked(self):
         print("pushed!")
         for i in range(0,2):
