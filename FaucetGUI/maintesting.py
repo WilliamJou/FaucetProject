@@ -183,7 +183,7 @@ class MainWindow(QMainWindow, mainwindow.Ui_MainWindow):
         CS   = 11
         self.mcp = Adafruit_MCP3008.MCP3008(clk=CLK, cs=CS, miso=MISO, mosi=MOSI)
         #self.potRange = [[65,480],[10,480]]
-        self.potRange = [[160,400],[0,204]]
+        self.potRange = [[167,400],[0,204]]
         #180 --> 90
         self.prevPot = [self.scale(self.constrain(self.mcp.read_adc(self.channel[0]),self.potRange[0][0], self.potRange[0][1]), self.potRange[0][0], self.potRange[0][1] ,0, 90),
                         self.scale(self.constrain(self.mcp.read_adc(self.channel[1]),self.potRange[1][0], self.potRange[1][1]), self.potRange[1][0], self.potRange[1][1] ,0, 90)]
@@ -325,14 +325,9 @@ class MainWindow(QMainWindow, mainwindow.Ui_MainWindow):
         #print('hot servo index:', settings.servos[1].index)
         #print('index: ', settings.servos[1].index)
         value = round(value/11.25)*11.25 #input = degrees, output scaled to 11.25 intervals
-##        self.cSlider.setValue(value)
-        #settings.servos[1].moveAngle(value)
-## update output values        
-        #print('temperature: ', (settings.servos[0].temp[settings.servos[0].index][settings.servos[1].index]))
         print(settings.servos[1].prevAngle)
         print(value)
         self.txtTemp.setText(str(settings.servos[0].temp[settings.servos[0].index][settings.servos[1].index]))
-        #print('flow rate: ', (settings.servos[0].flow[settings.servos[0].index][settings.servos[1].index]))
         self.txtFlow.setText(str(settings.servos[0].flow[settings.servos[0].index][settings.servos[1].index]))
         if (settings.servos[1].prevAngle> value) and (abs(settings.servos[1].prevAngle-value)>7.5):
             settings.servos[1].moveAngle(value)
