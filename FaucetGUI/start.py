@@ -1,7 +1,7 @@
 
 import sys
 import time
-from main import *
+from maintesting import *
 import settings
 
 # I feel better having one of these

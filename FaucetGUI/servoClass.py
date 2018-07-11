@@ -48,24 +48,36 @@ class servo(object):
                 #print('pwm:', self.pwm)
                 #print(angle)
                 #print(self.min, self.max)
-                self.pwm = self.scale(angle,0,180,self.min, self.max)
-                #print('pwm: ', self.pwm)
+                #180-->90
+                
+                #if (self.pwm <= 285) :
+                    #self.pwm = self.scale(angle,0,45,self.min, self.max)
+                    #self.pwm = self.scale(angle,0,90,self.min, self.max)
+                    #print('pwm: ', self.pwm)
+                    #settings.mainControl.move(self.pin, self.pwm)
+                #else :
+                self.pwm = self.scale(angle,0,90,self.min, self.max)
+                    #self.pwm = self.scale(angle,0,90,self.min, self.max)
+                print('pwm: ', self.pwm)
                 settings.mainControl.move(self.pin, self.pwm)
             elif (self.direction == "ccw"):
                 self.angle = angle
-                self.pwm = self.scale(angle,180,0,self.min, self.max)
-                #print('pwm: ', self.pwm)
+                #180-->90
+                self.pwm = self.scale(angle,90,0,self.min, self.max)
+                print('pwm: ', self.pwm)
                 settings.mainControl.move(self.pin, self.pwm)               
                 
 	def movePWM(self, pwm):
             if (self.direction == "cw"):
-                self.angle = (pwm - self.min) / (self.max - self.min) * 180 - 90
+                #180-->90 (first 90 only)
+                self.angle = (pwm - self.min) / (self.max - self.min) * 90 - 90
                 settings.mainControl.move(self.pin, pwm)
             elif (self.direction =="ccw"):
                 settings.mainControl.move(self.pin, (self.max-pwm+self.min))
 
 	def movePer(self, per):
-		self.angle = (180 * per / 100) - 90
+            #180-->90 (first 90 only)
+		self.angle = (90 * per / 100) - 90
 		self.pwm = (self.max - self.min) * per / 100 + self.min
 		self.per = per
 		settings.mainControl.move(self.pin, self.pwm)
