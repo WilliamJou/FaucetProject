@@ -183,7 +183,7 @@ class MainWindow(QMainWindow, mainwindow.Ui_MainWindow):
         CS   = 11
         self.mcp = Adafruit_MCP3008.MCP3008(clk=CLK, cs=CS, miso=MISO, mosi=MOSI)
         #self.potRange = [[65,480],[10,480]]
-        self.potRange = [[167,400],[0,204]]
+        self.potRange = [[100,400],[0,204]]
         #180 --> 90
         self.prevPot = [self.scale(self.constrain(self.mcp.read_adc(self.channel[0]),self.potRange[0][0], self.potRange[0][1]), self.potRange[0][0], self.potRange[0][1] ,0, 90),
                         self.scale(self.constrain(self.mcp.read_adc(self.channel[1]),self.potRange[1][0], self.potRange[1][1]), self.potRange[1][0], self.potRange[1][1] ,0, 90)]
@@ -209,7 +209,7 @@ class MainWindow(QMainWindow, mainwindow.Ui_MainWindow):
             for i in range (0,2):
                 val[i] = int(self.mcp.read_adc(self.channel[i]))
                 
-                #print(i, 'this is testing constrain : ', self.constrain(val[i], self.potRange[0][0], self.potRange[0][1]))
+                #print(i, 'potentiometer value: val[i]', val[i])
                 #val[i] = pwm value now
                 
                 #val[i]= self.scale(self.constrain(val[i], self.potRange[i][0], self.potRange[i][1]), self.potRange[i][0], self.potRange[i][1] ,settings.servos[i].min, settings.servos[i].max) #float pwm
@@ -224,7 +224,7 @@ class MainWindow(QMainWindow, mainwindow.Ui_MainWindow):
                         Rounded = round(pot2deg/11.25)*11.25
                     print('Current Cold potentiometer reading of', pot2deg)
                     print('Previous Cold potentiometer value of', self.prevPot[i])
-                    print(val[i])
+                    print('Cold val[i]: ', val[i])
                 elif i == 1:
                     if (val[i]<=20):
                         #pot2deg = self.scale(self.constrain(val[i], self.potRange[i][0], self.potRange[i][1]),self.potRange[i][0], self.potRange[i][1], 0, 25)
@@ -234,9 +234,9 @@ class MainWindow(QMainWindow, mainwindow.Ui_MainWindow):
                         Rounded = round(pot2deg/11.25)*11.25
                     print('Current Hot potentiometer reading of', pot2deg)
                     print('Previous Hot potentiometer value of', self.prevPot[i])
-                    print(val[i])
+                    print('Hot val[i]: ', val[i])
                     #print(i, 'Previous Potentiometer Value: ', self.prevPot[i])
-                if abs(pot2deg -  self.prevPot[i]) > 5:
+                if abs(pot2deg -  self.prevPot[i]) > 6:
                     print('Handle Engaged', i)
                     print('Current Potentiometer Reading of', i, pot2deg)
                     print('Previous potentiometer value of', i, self.prevPot[i])
